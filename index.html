@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Control</title>
+</head>
+<body>
+    <h1>Control Your Computer</h1>
+    <button onclick="sendCommand('shutdown')">Shutdown</button>
+    <button onclick="sendCommand('restart')">Restart</button>
+    <button onclick="sendCommand('lock')">Lock Screen</button>
+
+    <script>
+        function sendCommand(command) {
+            fetch('/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: command })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
